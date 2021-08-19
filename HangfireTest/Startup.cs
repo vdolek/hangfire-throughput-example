@@ -27,30 +27,16 @@ namespace HangfireTest
             {
                 config
                     .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-                    ////.UseSimpleAssemblyNameTypeSerializer()
-                    ////.UseBatches()
-                    ////.UseRecommendedSerializerSettings()
                     .UseRedisStorage(
                         "localhost:6379",
                         new RedisStorageOptions
                         {
-                            Prefix = "hangfire-test",
-                            InvisibilityTimeout = TimeSpan.FromMinutes(1)
+                            Prefix = "hangfire-test"
                         })
-                    ////.UseSerilogLogProvider()
-                    .UseConsole()
-                    ////.UseFilter(new ProlongExpirationTimeAttribute(settings.Hangfire.JobExpiration) { Order = 0 })
-                    ////.UseFilter(new PerformContextCaptureFilter { Order = 1 })
-                    ////.UseFilter(new LoggingFilter(serviceProvider.GetRequiredService<ILogger<LoggingFilter>>()) { Order = 2 })
-                    .UseFilter(new AutomaticRetryAttribute { Attempts = 0, LogEvents = false });
+                    .UseConsole();
             });
 
-            // Add the processing server as IHostedService
-            services.AddHangfireServer(options =>
-            {
-                ////options.SchedulePollingInterval = TimeSpan.FromSeconds(1);
-                ////options.CancellationCheckInterval = TimeSpan.FromSeconds(1);
-            });
+            services.AddHangfireServer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
